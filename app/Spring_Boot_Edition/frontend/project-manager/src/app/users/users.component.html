@@ -1,0 +1,90 @@
+<div class=main>
+    <h1 class=main-title>Users</h1>
+    <div class=content-wrap>
+        <div class=user-list>
+            <div *ngFor="let employee of employees" class=user-wrap>
+                <div class=user>
+                    <p>{{employee.USERNAME}} - {{employee.FULLNAME}}</p>
+                </div>
+                <div class=user-status>
+                    <p>{{ employee.STATUS === 1 ? 'Active' : 'Inactive' }}</p>
+                </div>
+            </div>
+        </div>
+        <div class=user-details>
+            <h3>User details</h3>
+            <div class=uca-wrap>
+                <div class=user-c-attribute>
+                    <p>CUSTOM_ATTRIBUTE.TITLE: CUSTOM_ATTRIBUTE.CONTENT</p>
+                </div>
+            </div>
+            <div class=c-attribute-navbar>
+                <button class=can-button>New custom attribute</button>
+                <button class=can-button>Update selected custom attribute</button>
+                <button class=can-button>Delete selected custom attribute</button>
+            </div>
+        </div>
+    </div>
+    <div class=user-navbar>
+        <button class=user-button>New user</button>
+        <button (click)="showPopup()" class=user-button>Update selected user</button>
+        <app-user-update #popup [title]="'User Update'" [message]="'Please update user information.'"></app-user-update>
+        <button class=user-button>Delete selected user</button>
+    </div>
+</div>
+<style>
+    .content-wrap {
+        overflow-y: hidden;
+    }
+
+    .content-wrap {
+        display: flex;
+    }
+
+    .user-list,
+    .user-details {
+        width: 50vw;
+        height: inherit;
+        flex-grow: 1;
+        padding: 15px;
+    }
+
+    .user-c-attribute {
+        overflow-wrap: break-word;
+    }
+
+    .main-title {
+        padding: 15px;
+    }
+
+    .c-attribute-navbar, .user-navbar {
+        text-align: right;
+        margin-top: 15px;
+    }
+
+    .can-button, .user-button {
+        width: 20%;
+        height: 50px;
+        font-size: 10px;
+        margin-left: 10px;
+    }
+
+    .user-wrap {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .user {
+        overflow-wrap: break-word;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .user-status {
+        width: 70px;
+    }
+
+    .user-button {
+        width: 15%;
+    }
+</style>

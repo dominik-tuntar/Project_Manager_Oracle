@@ -1,8 +1,48 @@
-<div class = main>
-  <h1>t</h1>
+<div class=main>
+  <h1 class=main-title>Project Manager</h1>
+    <div class=navbar-main>
+      <button class=navbar-button routerLink="/">Dashboard</button>
+      <button class=navbar-button>Tasks</button>
+      <button class=navbar-button routerLink="/users">Users</button>
+      <button class=navbar-button>Inbound requests</button>
+      <button class=navbar-button>Projects</button>
+      <button class=navbar-button>Final projects</button>
+      <button class=navbar-button>Knowledge base</button>
+      <button class=navbar-button>Clients</button>
+      <button class=navbar-button>Activity log</button>
+    </div>
+</div>
+<div class=component>
+  <router-outlet></router-outlet>
 </div>
 <style>
-  div {
-    border: 2px solid;
+  .main-title {
+    padding: 15px;
+  }
+
+  label {
+    margin-right: 15px;
+  }
+
+  .navbar-main {
+    margin-bottom: 50px;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .navbar-button {
+    margin-right: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 10%;
+    height: 50px;
+    font-size: 10px;
+  }
+  .component {
+    margin-left: 10px;
+    margin-right: 10px;
+    max-height: 60vh;
+    overflow-y: auto;
   }
 </style>

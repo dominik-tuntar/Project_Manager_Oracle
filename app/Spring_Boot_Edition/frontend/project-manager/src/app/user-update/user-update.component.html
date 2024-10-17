@@ -1,0 +1,28 @@
+<div class=main *ngIf="isOpen">
+    <button (click)="close()" class=close-button>X</button>
+    <div class=content-wrap>
+        <h3>Update user: EMPLOYEE.USERNAME</h3>
+    </div>
+</div>
+<style>
+    .main {
+        width: 70vw;
+        height: 50vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: white;
+    }
+
+    .close-button {
+        width: 7%;
+        height: 25px;
+    }
+
+    .content-wrap {
+        text-align: left;
+        padding: 10px;
+    }
+</style>

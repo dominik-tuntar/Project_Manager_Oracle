@@ -1,0 +1,30 @@
+.dashboard-title {
+  margin: 10px;
+}
+
+.dashboard {
+    display: flex;
+    overflow-wrap: break-word;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .dashboard-section {
+    width: 25%;
+    margin: 5px;
+  }
+
+  .subsection-wrap {
+    margin-bottom: 15px;
+    margin: 5px;
+  }
+
+  .dashboard-subsection {
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .section-title {
+    margin-bottom: 25px;
+    margin: 5px;
+  }

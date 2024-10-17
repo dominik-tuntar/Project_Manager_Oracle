@@ -15,8 +15,6 @@ public class Employee implements Serializable {
     @Column(nullable = false)
     private String USERNAME;
     @Column(nullable = false)
-    private String PASS_WORD;
-    @Column(nullable = false)
     private Short STATUS;
 
     public Employee() {}
@@ -25,7 +23,6 @@ public class Employee implements Serializable {
         this.ID_EMPLOYEE_ROLE = ID_EMPLOYEE_ROLE;
         this.FULLNAME = FULLNAME;
         this.USERNAME = USERNAME;
-        this.PASS_WORD = PASS_WORD;
         this.STATUS = STATUS;
     }
 
@@ -59,14 +56,6 @@ public class Employee implements Serializable {
 
     public void setUsername(String USERNAME) {
         this.USERNAME = USERNAME;
-    }
-
-    public String getPassword() {
-        return PASS_WORD;
-    }
-
-    public void setPassword(String PASS_WORD) {
-        this.PASS_WORD = PASS_WORD;
     }
 
     public Short getStatus() {

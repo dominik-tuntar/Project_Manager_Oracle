@@ -1,23 +1,18 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { employee } from './employee';
-import { service } from './service';
+import { Component } from '@angular/core';
+import { Employee } from './employee';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgFor } from '@angular/common';
+import { Service } from './service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NgFor],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Project Manager';
-  public employees: employee[] = [];
+  public employees: Employee[] = [];
 
-  constructor(private empservice: service){}
+  constructor(private empservice: Service) { }
 
   ngOnInit() {
     this.getAllUsers();
@@ -25,7 +20,7 @@ export class AppComponent implements OnInit {
 
   public getAllUsers(): void {
     this.empservice.getAllUsers().subscribe(
-      (response: employee[]) => {
+      (response: Employee[]) => {
         this.employees = response;
       },
       (error: HttpErrorResponse) => {
