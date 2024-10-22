@@ -26,6 +26,7 @@ export class UsersComponent implements OnInit {
   public searchTerm: string = '';
   public filteredUsers: Employee[] = [];
 
+
   constructor(private service: Service) { }  // Use Service (PascalCase)
 
   ngOnInit() {
@@ -73,7 +74,11 @@ export class UsersComponent implements OnInit {
       this.service.disableUser(id_employee)
         .subscribe(
           (response: any) => {
-            location.reload()
+            const index = this.employees.findIndex(emp => emp.ID_EMPLOYEE === id_employee);
+            if (index > -1) {
+              this.employees[index].STATUS = 0; // Assuming '0' indicates inactive
+              this.filteredUsers = [...this.employees]; // Update the filtered list to reflect changes
+            }
           },
           (error: any) => {
             console.error('Error disabling user:', error);
@@ -89,7 +94,11 @@ export class UsersComponent implements OnInit {
       this.service.enableUser(id_employee)
         .subscribe(
           (response: any) => {
-            location.reload()
+            const index = this.employees.findIndex(emp => emp.ID_EMPLOYEE === id_employee);
+            if (index > -1) {
+              this.employees[index].STATUS = 1; // Assuming '1' indicates active
+              this.filteredUsers = [...this.employees]; // Update the filtered list to reflect changes
+            }
           },
           (error: any) => {
             console.error('Error disabling user:', error);
@@ -105,7 +114,11 @@ export class UsersComponent implements OnInit {
       this.service.deleteCustomAttribute(id_c_attribute)
         .subscribe(
           (response: any) => {
-            location.reload()
+            const index = this.custom_attributes.findIndex(attr => attr.ID_C_ATTRIBUTE === id_c_attribute);
+            if (index > -1) {
+              this.custom_attributes.splice(index, 1); // Remove the attribute from the array
+              this.filterAttributes(); // Update the filtered attributes to reflect changes
+            }
           },
           (error: any) => {
             console.error('Error disabling user:', error);
@@ -117,7 +130,7 @@ export class UsersComponent implements OnInit {
   }
 
   private filterAttributes(): void {
-    this.filteredAttributes = this.custom_attributes.filter(attribute => 
+    this.filteredAttributes = this.custom_attributes.filter(attribute =>
       attribute.TABLE_NAME === 'EMPLOYEE' && attribute.TABLE_ROW === this.selectedUserId
     );
   }
@@ -135,6 +148,7 @@ export class UsersComponent implements OnInit {
     }
   }
 
+
   @ViewChild('popupUpdate') popupUpdate!: UserUpdateComponent;
   @ViewChild('popupCreate') popupCreate!: UserCreateComponent;
   @ViewChild('popupCattUpdate') popupCattUpdate!: CattributeUpdateComponent;
@@ -142,7 +156,7 @@ export class UsersComponent implements OnInit {
 
   showUpdatePopup() {
     if (this.popupUpdate) {
-      this.popupUpdate.selectedUser = this.selectedUserInfo; 
+      this.popupUpdate.selectedUser = this.selectedUserInfo;
       this.popupUpdate.open();
     }
   }
@@ -156,7 +170,7 @@ export class UsersComponent implements OnInit {
 
   showCattUpdatePopup() {
     if (this.popupCattUpdate) {
-      this.popupCattUpdate.selectedCatt = this.selectedCattInfo; 
+      this.popupCattUpdate.selectedCatt = this.selectedCattInfo;
       this.popupCattUpdate.open();
     }
   }
@@ -166,5 +180,34 @@ export class UsersComponent implements OnInit {
     if (this.popupCreate) {
       this.popupCreate.open();
     }
+  }
+
+  public onUserUpdated(updatedUser: Employee): void {
+    const index = this.employees.findIndex(emp => emp.ID_EMPLOYEE === updatedUser.ID_EMPLOYEE);
+    if (index > -1) {
+      this.employees[index] = updatedUser;  // Update the employee in the list
+      this.filteredUsers = [...this.employees];  // Update filtered list
+    }
+  }
+
+  public onUserCreated(newUser: Employee): void {
+    this.employees.push(newUser);  // Add the newly created user to the list
+    this.filteredUsers = [...this.employees];  // Update the filtered list to include the new user
+  }
+
+  public onCustomAttributeUpdated(updatedCatt: Custom_Attribute): void {
+    // Find the index of the existing attribute and update it
+    const index = this.custom_attributes.findIndex(catt => catt.ID_C_ATTRIBUTE === updatedCatt.ID_C_ATTRIBUTE);
+    if (index !== -1) {
+      this.custom_attributes[index] = updatedCatt; // Update the existing attribute
+    } else {
+      // Optionally handle the case where the custom attribute was not found
+      this.getCustomAttributes('EMPLOYEE', this.selectedUserId!);
+    }
+  }
+
+  public onCustomAttributeCreated(newCatt: Custom_Attribute): void {
+    this.custom_attributes.push(newCatt); // Add the new custom attribute to the list
+    this.filterAttributes();
   }
 }

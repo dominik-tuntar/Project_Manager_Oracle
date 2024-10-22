@@ -30,26 +30,26 @@
                 </div>
             </div>
             <div class=c-attribute-navbar>
-                <div class=s-user-text>
+                <div class=s-catt-text>
                     <h4>Selected item: {{ selectedCattInfo ? selectedCattInfo.TITLE : '' }}</h4>
                 </div>
                 <button class=can-button (click)="showCattCreatePopup()">symbol<br>Create<br>selected</button>
-                <app-cattribute-create #popupCattCreate></app-cattribute-create>
+                <app-cattribute-create #popupCattCreate (customAttributeCreated)="onCustomAttributeCreated($event)"></app-cattribute-create>
                 <button class=can-button (click)="showCattUpdatePopup()">symbol<br>Update<br>selected</button>
-                <app-cattribute-update #popupCattUpdate></app-cattribute-update>
+                <app-cattribute-update #popupCattUpdate (customAttributeUpdated)="onCustomAttributeUpdated($event)"></app-cattribute-update>
                 <button class=can-button
                     (click)="deleteCustomAttribute(selectedCattId)">symbol<br>Delete<br>selected</button>
             </div>
         </div>
     </div>
     <div class=user-navbar>
-        <div class=s-catt-text>
+        <div class=s-user-text>
             <h4>Selected user: {{ selectedUserInfo ? selectedUserInfo.USERNAME : '' }}</h4>
         </div>
         <button class=user-button (click)="showCreatePopup()">symbol<br>Create new User</button>
-        <app-user-create #popupCreate></app-user-create>
+        <app-user-create #popupCreate (userCreated)="onUserCreated($event)"></app-user-create>
         <button class=user-button (click)="showUpdatePopup()">symbol<br>Update User</button>
-        <app-user-update #popupUpdate></app-user-update>
+        <app-user-update #popupUpdate (userUpdated)="onUserUpdated($event)"></app-user-update>
         <button class=user-button (click)="disableUser(selectedUserId)">symbol<br>Set user as inactive</button>
         <button class=user-button (click)="enableUser(selectedUserId)">symbol<br>Set user as active</button>
     </div>
@@ -160,6 +160,12 @@
 
     .s-user-text {
         text-align: left;
+        max-width: 40%;
+        overflow-y: auto;
         flex: 1;
+    }
+
+    .s-catt-text {
+        overflow-y: auto;
     }
 </style>

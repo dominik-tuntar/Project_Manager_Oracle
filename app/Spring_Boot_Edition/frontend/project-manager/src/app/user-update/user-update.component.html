@@ -21,11 +21,14 @@
             <div class = input-wrap>
                 <label for="password2">Confirm password</label>
                 <br>
-                <input type="password" id="password2" name="password2" value="{{ selectedUser.PASS_WORD }}">
+                <input type="password" id="password2" name="password2" value="{{ selectedUser.PASS_WORD }}" #password2>
             </div>
         </div>
         <div class="button-wrap">
-            <button (click)="updateUser(selectedUser.ID_EMPLOYEE, fullname.value, username.value, password.value)">Update user</button>
+            <div class="insert-err">
+                <h4 *ngIf="passwordMatch === 0">no match</h4>
+            </div>
+            <button (click)="updateUser(selectedUser.ID_EMPLOYEE, fullname.value, username.value, password.value, password2.value)">Update user</button>
         </div>
     </div>
 </div>
@@ -59,5 +62,8 @@
     .button-wrap {
         text-align: right;
         padding: 15px;
+    }
+    .insert-err {
+        text-align: left;
     }
 </style>
