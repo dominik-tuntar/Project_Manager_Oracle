@@ -31,16 +31,27 @@ public class ProcedureController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/getCustomAttributes")
+    public ResponseEntity<List<Map<String, Object>>> getCustomAttributes(
+            @RequestParam("table_name") String table_name,
+            @RequestParam("table_row") String table_row) {
+
+        // Call the service method to retrieve the custom attributes
+        List<Map<String, Object>> customAttributes = procedureService.GETCUSTOMATTRIBUTES(table_name, table_row);
+
+        // Return the results in the response
+        return ResponseEntity.ok(customAttributes);
+    }
     @PostMapping("/createCustomAttribute")
     public String createCustomAttribute(
-            @RequestParam("table_name") String tableName,
-            @RequestParam("table_row") Integer tableRow,
+            @RequestParam("table_name") String table_name,
+            @RequestParam("table_row") Integer table_row,
             @RequestParam("title") String title,
             @RequestParam("content_") String content_
     ) {
         try {
             // Call the service method to create a custom attribute
-            ProcedureService.CREATECUSTOMATTRIBUTE(tableName, tableRow, title, content_);
+            ProcedureService.CREATECUSTOMATTRIBUTE(table_name, table_row, title, content_);
             return "Custom attribute created successfully!";
         } catch (Exception e) {
             return "Failed to create custom attribute: " + e.getMessage();
@@ -55,6 +66,72 @@ public class ProcedureController {
         try {
             // Call the service method to create a custom attribute
             ProcedureService.CREATEUSER(fullname, username, pass_word);
+            return "User created successfully!";
+        } catch (Exception e) {
+            return "Failed to create user: " + e.getMessage();
+        }
+    }
+    @PutMapping("/updateCustomAttribute")
+    public String updateCustomAttribute(
+            @RequestParam("v_id_c_attribute") Integer v_id_c_attribute,
+            @RequestParam("v_title") String v_title,
+            @RequestParam("v_content_") String v_content_
+    ) {
+        try {
+            // Call the service method to create a custom attribute
+            ProcedureService.UPDATECUSTOMATTRIBUTE(v_id_c_attribute, v_title, v_content_);
+            return "Custom attribute updated successfully!";
+        } catch (Exception e) {
+            return "Failed to update custom attribute: " + e.getMessage();
+        }
+    }
+    @PutMapping("/updateUser")
+    public String updateUser(
+            @RequestParam("v_id_employee") Integer v_id_employee,
+            @RequestParam("v_fullname") String v_fullname,
+            @RequestParam("v_username") String v_username,
+            @RequestParam("v_pass_word") String v_pass_word
+    ) {
+        try {
+            // Call the service method to create a custom attribute
+            ProcedureService.UPDATEUSER(v_id_employee, v_fullname, v_username, v_pass_word);
+            return "User updated successfully!";
+        } catch (Exception e) {
+            return "Failed to update user: " + e.getMessage();
+        }
+    }
+    @PutMapping("/disableUser")
+    public String disableUser(
+            @RequestParam("v_id_employee") Integer v_id_employee
+    ) {
+        try {
+            // Call the service method to create a custom attribute
+            ProcedureService.DISABLEUSER(v_id_employee);
+            return "User disabled successfully!";
+        } catch (Exception e) {
+            return "Failed to disable user: " + e.getMessage();
+        }
+    }
+    @PutMapping("/enableUser")
+    public String enableUser(
+            @RequestParam("v_id_employee") Integer v_id_employee
+    ) {
+        try {
+            // Call the service method to create a custom attribute
+            ProcedureService.ENABLEUSER(v_id_employee);
+            return "User enabled successfully!";
+        } catch (Exception e) {
+            return "Failed to enable user: " + e.getMessage();
+        }
+    }
+
+    @DeleteMapping("/deleteCustomAttribute")
+    public String deleteCustomAttribute(
+            @RequestParam("v_id_c_attribute") Integer v_id_c_attribute
+    ) {
+        try {
+            // Call the service method to create a custom attribute
+            ProcedureService.DELETECUSTOMATTRIBUTE(v_id_c_attribute);
             return "Custom attribute created successfully!";
         } catch (Exception e) {
             return "Failed to create custom attribute: " + e.getMessage();

@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { Employee } from '../employee';
 import { Service } from '../service';
+import { Custom_Attribute } from '../custom_attribute';
 
 @Component({
-  selector: 'app-user-update',
-  templateUrl: './user-update.component.html',
-  styleUrl: './user-update.component.css'
+  selector: 'app-cattribute-update',
+  templateUrl: './cattribute-update.component.html',
+  styleUrl: './cattribute-update.component.css'
 })
-
-export class UserUpdateComponent {
+export class CattributeUpdateComponent {
   @Input() title: string = 'Default Title';
   @Input() message: string = 'Default message.';
-  @Input() selectedUser: Employee | null = null;
+  @Input() selectedCatt: Custom_Attribute | null = null;
   isOpen: boolean = false;
   constructor(private service: Service) { }
 
@@ -23,8 +23,8 @@ export class UserUpdateComponent {
     this.isOpen = false;
   }
 
-  public updateUser(id_employee: number, fullname: string, username: string, pass_word: string): void {
-    this.service.updateUser(id_employee, fullname, username, pass_word)
+  public updateCustomAttribute(id_c_attribute: number, title: string, content: string): void {
+    this.service.updateCustomAttribute(id_c_attribute, title, content)
       .subscribe(
         (response: any) => {
           this.close();

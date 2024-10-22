@@ -11,12 +11,12 @@ public class Custom_Attribute implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(nullable = false, updatable = false)
-    private Long ID_EMPLOYEE;
+    private Long ID_C_ATTRIBUTE;
     @Column(nullable = false, updatable = false)
-    private Short ID_EMPLOYEE_ROLE;
-    private String FULLNAME;
-    @Column(nullable = false)
-    private String USERNAME;
-    @Column(nullable = false)
-    private Short STATUS;
+    private String TABLE_NAME;
+    @Column(nullable = false, updatable = false)
+    private String TABLE_ROW;
+    private String TITLE;
+    private Short CONTENT_;
 }
+

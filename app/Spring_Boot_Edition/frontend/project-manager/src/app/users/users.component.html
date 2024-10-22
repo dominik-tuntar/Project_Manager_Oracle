@@ -1,9 +1,15 @@
 <div class=main>
     <h1 class=main-title>Users</h1>
+    <div class=search>
+        <label for="user-search">Search for user</label>
+        <br><br>
+        <input type="text" id="user-search" name="user-search" [(ngModel)]="searchTerm" (keyup)="filterUsers()">
+    </div>
     <div class=content-wrap>
         <div class=user-list>
-            <div *ngFor="let employee of employees" class=user-wrap>
-                <div class=user>
+            <div *ngFor="let employee of filteredUsers" class=user-wrap>
+                <div class=user [ngClass]="{'selected-user': selectedUserId === employee.ID_EMPLOYEE}"
+                    (click)="getSelectedUserInfo(employee)">
                     <p>{{employee.USERNAME}} - {{employee.FULLNAME}}</p>
                 </div>
                 <div class=user-status>
@@ -13,27 +19,51 @@
         </div>
         <div class=user-details>
             <h3>User details</h3>
-            <div class=uca-wrap>
-                <div class=user-c-attribute>
-                    <p>CUSTOM_ATTRIBUTE.TITLE: CUSTOM_ATTRIBUTE.CONTENT</p>
+            <div class=user-details-wrap>
+                <div class=uca-wrap *ngFor="let custom_attribute of filteredAttributes">
+                    <div class=user-c-attribute
+                        *ngIf="custom_attribute.TABLE_NAME === 'EMPLOYEE' && custom_attribute.TABLE_ROW === selectedUserId"
+                        [ngClass]="{'selected-catt': selectedCattId === custom_attribute.ID_C_ATTRIBUTE}"
+                        (click)="getSelectedCattInfo(custom_attribute)">
+                        <p>{{custom_attribute.TITLE}} - {{custom_attribute.CONTENT_}}</p>
+                    </div>
                 </div>
             </div>
             <div class=c-attribute-navbar>
-                <button class=can-button>New custom attribute</button>
-                <button class=can-button>Update selected custom attribute</button>
-                <button class=can-button>Delete selected custom attribute</button>
+                <div class=s-user-text>
+                    <h4>Selected item: {{ selectedCattInfo ? selectedCattInfo.TITLE : '' }}</h4>
+                </div>
+                <button class=can-button (click)="showCattCreatePopup()">symbol<br>Create<br>selected</button>
+                <app-cattribute-create #popupCattCreate></app-cattribute-create>
+                <button class=can-button (click)="showCattUpdatePopup()">symbol<br>Update<br>selected</button>
+                <app-cattribute-update #popupCattUpdate></app-cattribute-update>
+                <button class=can-button
+                    (click)="deleteCustomAttribute(selectedCattId)">symbol<br>Delete<br>selected</button>
             </div>
         </div>
     </div>
     <div class=user-navbar>
-        <button class=user-button>New user</button>
-        <button (click)="showPopup()" class=user-button>Update selected user</button>
-        <app-user-update #popup [title]="'User Update'" [message]="'Please update user information.'"></app-user-update>
-        <button class=user-button>Delete selected user</button>
+        <div class=s-catt-text>
+            <h4>Selected user: {{ selectedUserInfo ? selectedUserInfo.USERNAME : '' }}</h4>
+        </div>
+        <button class=user-button (click)="showCreatePopup()">symbol<br>Create new User</button>
+        <app-user-create #popupCreate></app-user-create>
+        <button class=user-button (click)="showUpdatePopup()">symbol<br>Update User</button>
+        <app-user-update #popupUpdate></app-user-update>
+        <button class=user-button (click)="disableUser(selectedUserId)">symbol<br>Set user as inactive</button>
+        <button class=user-button (click)="enableUser(selectedUserId)">symbol<br>Set user as active</button>
     </div>
 </div>
 <style>
+    .main {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
     .content-wrap {
+        display: flex;
+        flex-grow: 1;
         overflow-y: hidden;
     }
 
@@ -41,12 +71,29 @@
         display: flex;
     }
 
+    .search {
+        padding: 15px;
+    }
+
     .user-list,
     .user-details {
-        width: 50vw;
         height: inherit;
         flex-grow: 1;
         padding: 15px;
+    }
+
+    .user-list {
+        width: 60%;
+    }
+
+    .user-details {
+        width: 40%;
+        overflow-y: auto;
+    }
+
+    .user-details-wrap {
+        height: 17vh;
+        overflow-y: auto;
     }
 
     .user-c-attribute {
@@ -57,12 +104,23 @@
         padding: 15px;
     }
 
-    .c-attribute-navbar, .user-navbar {
-        text-align: right;
-        margin-top: 15px;
+    .c-attribute-navbar {
+        padding: 10px;
+        background-color: white;
     }
 
-    .can-button, .user-button {
+    .user-navbar {
+        display: flex;
+        /* Use flexbox layout */
+        justify-content: space-between;
+        /* Space between items */
+        align-items: center;
+        /* Center items vertically */
+        padding: 15px;
+    }
+
+    .can-button,
+    .user-button {
         width: 20%;
         height: 50px;
         font-size: 10px;
@@ -81,10 +139,27 @@
     }
 
     .user-status {
-        width: 70px;
+        width: 30%;
+        text-align: center;
     }
 
     .user-button {
         width: 15%;
+    }
+
+    .selected-user,
+    .selected-catt {
+        background-color: lightgreen;
+    }
+
+    .user-navbar {
+        padding: 15px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .s-user-text {
+        text-align: left;
+        flex: 1;
     }
 </style>

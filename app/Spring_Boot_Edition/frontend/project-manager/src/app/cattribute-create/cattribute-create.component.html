@@ -1,0 +1,53 @@
+<div class=main *ngIf="isOpen">
+    <button (click)="close()" class=close-button>X</button>
+    <div class=content-wrap>
+        <h3>Create new custom attribute</h3>
+        <div class=info>
+            <div class = input-wrap>
+                <label for="title">Title</label>
+                <br>
+                <input type="text" id="title" name="title" #title>
+            </div>
+            <div class = input-wrap>
+                <label for="content">Content</label>
+                <br>
+                <input type="text" id="content" name="content" #content>
+            </div>
+        </div>
+        <div class="button-wrap">
+            <button (click)="createCustomAttribute('EMPLOYEE', selectedUser?.ID_EMPLOYEE ?? 0, title.value, content.value)">Create new custom attribute</button>
+        </div>
+    </div>
+</div>
+<style>
+    .main {
+        width: 50vw;
+        height: inherit;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: white;
+    }
+
+    .close-button {
+        width: 7%;
+        height: 25px;
+    }
+
+    .content-wrap {
+        text-align: left;
+        padding: 10px;
+    }
+    .info {
+        margin-top: 15px;
+    }
+    .input-wrap {
+        padding: 15px;
+    }
+    .button-wrap {
+        text-align: right;
+        padding: 15px;
+    }
+</style>

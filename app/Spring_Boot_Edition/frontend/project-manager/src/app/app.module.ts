@@ -7,6 +7,11 @@ import { UsersComponent } from './users/users.component';
 import { Service } from './service';
 import { HttpClientModule } from '@angular/common/http';
 import { UserUpdateComponent } from './user-update/user-update.component';
+import { FormsModule } from '@angular/forms';
+import { UserCreateComponent } from './user-create/user-create.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { CattributeCreateComponent } from './cattribute-create/cattribute-create.component';
+import { CattributeUpdateComponent } from './cattribute-update/cattribute-update.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },  // Default route
@@ -19,12 +24,17 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     UsersComponent,
-    UserUpdateComponent
+    UserUpdateComponent,
+    UserCreateComponent,
+    LoadingScreenComponent,
+    CattributeCreateComponent,
+    CattributeUpdateComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [Service],
   bootstrap: [AppComponent]

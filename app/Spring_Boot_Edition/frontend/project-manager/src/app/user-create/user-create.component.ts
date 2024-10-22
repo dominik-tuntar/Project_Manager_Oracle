@@ -1,17 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { Employee } from '../employee';
 import { Service } from '../service';
 
 @Component({
-  selector: 'app-user-update',
-  templateUrl: './user-update.component.html',
-  styleUrl: './user-update.component.css'
+  selector: 'app-user-create',
+  templateUrl: './user-create.component.html',
+  styleUrl: './user-create.component.css'
 })
-
-export class UserUpdateComponent {
+export class UserCreateComponent {
   @Input() title: string = 'Default Title';
   @Input() message: string = 'Default message.';
-  @Input() selectedUser: Employee | null = null;
+
   isOpen: boolean = false;
   constructor(private service: Service) { }
 
@@ -23,8 +21,8 @@ export class UserUpdateComponent {
     this.isOpen = false;
   }
 
-  public updateUser(id_employee: number, fullname: string, username: string, pass_word: string): void {
-    this.service.updateUser(id_employee, fullname, username, pass_word)
+  public createUser(fullname: string, username: string, pass_word: string): void {
+    this.service.createUser(fullname, username, pass_word)
       .subscribe(
         (response: any) => {
           this.close();
