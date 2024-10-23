@@ -137,6 +137,59 @@ public class ProcedureController {
             return "Failed to create custom attribute: " + e.getMessage();
         }
     }
+
+    // POST endpoint to create a client
+    @PostMapping("/createClient")
+    public String createClient(
+            @RequestParam("name_") String name,
+            @RequestParam("email") String email
+    ) {
+        try {
+            ProcedureService.CREATECLIENT(name, email);
+            return "Client created successfully!";
+        } catch (Exception e) {
+            return "Failed to create client: " + e.getMessage();
+        }
+    }
+
+    // PUT endpoint to update a client
+    @PutMapping("/updateClient")
+    public String updateClient(
+            @RequestParam("v_id_client") Integer v_id_client,
+            @RequestParam("v_name_") String v_name_,
+            @RequestParam("v_email") String v_email
+    ) {
+        try {
+            ProcedureService.UPDATECLIENT(v_id_client, v_name_, v_email);
+            return "Client updated successfully!";
+        } catch (Exception e) {
+            return "Failed to update client: " + e.getMessage();
+        }
+    }
+
+    // DELETE endpoint to delete a client
+    @DeleteMapping("/deleteClient")
+    public String deleteClient(
+            @RequestParam("v_id_client") Integer v_id_client
+    ) {
+        try {
+            ProcedureService.DELETECLIENT(v_id_client);
+            return "Client deleted successfully!";
+        } catch (Exception e) {
+            return "Failed to delete client: " + e.getMessage();
+        }
+    }
+
+    // GET endpoint to retrieve all clients
+    @GetMapping("/getAllClients")
+    public ResponseEntity<List<Map<String, Object>>> getAllClients() {
+        try {
+            List<Map<String, Object>> clients = procedureService.GETALLCLIENTS();
+            return new ResponseEntity<>(clients, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 

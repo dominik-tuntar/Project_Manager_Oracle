@@ -1,19 +1,21 @@
 <div class=main>
   <h1 class=main-title>Project Manager</h1>
-    <div class=navbar-main>
-      <button class=navbar-button routerLink="/">Dashboard</button>
-      <button class=navbar-button>Tasks</button>
-      <button class=navbar-button routerLink="/users">Users</button>
-      <button class=navbar-button>Inbound requests</button>
-      <button class=navbar-button>Projects</button>
-      <button class=navbar-button>Final projects</button>
-      <button class=navbar-button>Knowledge base</button>
-      <button class=navbar-button>Clients</button>
-      <button class=navbar-button>Activity log</button>
-    </div>
+  <div class=navbar-main>
+    <button class=navbar-button routerLink="/">Dashboard</button>
+    <button class=navbar-button>Tasks</button>
+    <button class=navbar-button routerLink="/users">Users</button>
+    <button class=navbar-button>Inbound requests</button>
+    <button class=navbar-button>Projects</button>
+    <button class=navbar-button>Final projects</button>
+    <button class=navbar-button>Knowledge base</button>
+    <button class=navbar-button routerLink="/clients">Clients</button>
+    <button class=navbar-button>Activity log</button>
+  </div>
 </div>
-<div class=component>
-  <router-outlet></router-outlet>
+<div class=component-wrap>
+  <div class=component>
+    <router-outlet></router-outlet>
+  </div>
 </div>
 <style>
   .main-title {
@@ -29,6 +31,11 @@
     text-align: center;
     margin-left: 10px;
     margin-right: 10px;
+    display: flex;
+    /* Use flexbox for alignment */
+    flex-wrap: wrap;
+    /* Allows buttons to wrap on smaller screens */
+    justify-content: center;
   }
 
   .navbar-button {
@@ -38,7 +45,14 @@
     width: 10%;
     height: 50px;
     font-size: 10px;
+    display: flex;
+    /* Enable flexbox for buttons */
+    align-items: center;
+    /* Center text vertically */
+    justify-content: center;
+    box-sizing: border-box;
   }
+
   .component {
     margin-left: 10px;
     margin-right: 10px;

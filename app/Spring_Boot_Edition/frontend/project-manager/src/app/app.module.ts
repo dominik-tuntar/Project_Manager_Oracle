@@ -12,10 +12,14 @@ import { UserCreateComponent } from './user-create/user-create.component';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { CattributeCreateComponent } from './cattribute-create/cattribute-create.component';
 import { CattributeUpdateComponent } from './cattribute-update/cattribute-update.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ClientCreateComponent } from './client-create/client-create.component';
+import { ClientUpdateComponent } from './client-update/client-update.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },  // Default route
-  { path: 'users', component: UsersComponent },  // 'about' route
+  { path: 'users', component: UsersComponent },
+  { path: 'clients', component: ClientsComponent },  // 'about' route
   { path: '**', redirectTo: '' }  // Wildcard route (for 404 or invalid paths)
 ];
 
@@ -28,7 +32,10 @@ const routes: Routes = [
     UserCreateComponent,
     LoadingScreenComponent,
     CattributeCreateComponent,
-    CattributeUpdateComponent
+    CattributeUpdateComponent,
+    ClientsComponent,
+    ClientCreateComponent,
+    ClientUpdateComponent
   ],
   imports: [
     BrowserModule,

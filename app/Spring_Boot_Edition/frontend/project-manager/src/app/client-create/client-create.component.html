@@ -1,21 +1,21 @@
 <div class="main" *ngIf="isOpen">
     <button (click)="close()" class="close-button">X</button>
     <div class="content-wrap">
-        <h3>Create new custom attribute</h3>
+        <h3>Create new client</h3>
         <div class="info">
             <div class="input-wrap">
-                <label for="title">Title</label>
+                <label for="clientName">Client Name</label>
                 <br>
-                <input type="text" id="title" name="title" [(ngModel)]="title">
+                <input type="text" id="clientName" name="clientName" #client>
             </div>
             <div class="input-wrap">
-                <label for="content">Content</label>
+                <label for="clientEmail">Client Email</label>
                 <br>
-                <input type="text" id="content" name="content" [(ngModel)]="content">
+                <input type="email" id="clientEmail" name="clientEmail" #email>
             </div>
         </div>
         <div class="button-wrap">
-            <button (click)="createCustomAttribute(getCreateParameters()[0], getCreateParameters()[1], title, content)">Create new custom attribute</button>
+            <button (click)="createClient(client.value, client.value)">Create new client</button>
         </div>
     </div>
 </div>
@@ -41,14 +41,21 @@
         text-align: left;
         padding: 10px;
     }
+
     .info {
         margin-top: 15px;
     }
+
     .input-wrap {
         padding: 15px;
     }
+
     .button-wrap {
         text-align: right;
         padding: 15px;
     }
+    .insert-err {
+        text-align: left;
+    }
 </style>
+

@@ -1,0 +1,147 @@
+<div class="main">
+    <h1 class="main-title">Clients</h1>
+    <div class="search">
+        <label for="client-search">Search for client</label>
+        <br><br>
+        <input type="text" id="client-search" name="client-search" [(ngModel)]="searchTerm" (keyup)="filterClients()">
+    </div>
+    <div class="content-wrap">
+        <div class="client-list">
+            <div *ngFor="let client of filteredClients" class="client-wrap">
+                <div class="client" [ngClass]="{'selected-client': selectedClientId === client.ID_CLIENT}"
+                    (click)="getSelectedClientInfo(client)">
+                    <p>{{client.NAME_}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="client-details">
+            <h3>Client Details</h3>
+            <div class="client-details-wrap">
+                <p><strong>Email:</strong> {{ selectedClientInfo ? selectedClientInfo.EMAIL : '' }}</p>
+                <div class="cca-wrap" *ngFor="let custom_attribute of filteredAttributes">
+                    <div class="client-c-attribute"
+                        *ngIf="custom_attribute.TABLE_NAME === 'CLIENT' && custom_attribute.TABLE_ROW === selectedClientId"
+                        [ngClass]="{'selected-catt': selectedCattId === custom_attribute.ID_C_ATTRIBUTE}"
+                        (click)="getSelectedCattInfo(custom_attribute)">
+                        <p>{{custom_attribute.TITLE}} - {{custom_attribute.CONTENT_}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="c-attribute-navbar">
+                <div class="s-catt-text">
+                    <h4>Selected item: {{ selectedCattInfo ? selectedCattInfo.TITLE : '' }}</h4>
+                </div>
+                <button class="can-button" (click)="showCattCreatePopup()">Create Custom Attribute</button>
+                <app-cattribute-create #popupCattCreate (customAttributeCreated)="onCustomAttributeCreated($event)"></app-cattribute-create>
+                <button class=can-button (click)="showCattUpdatePopup()">symbol<br>Update<br>selected</button>
+                <app-cattribute-update #popupCattUpdate (customAttributeUpdated)="onCustomAttributeUpdated($event)"></app-cattribute-update>
+                <button class="can-button" (click)="deleteCustomAttribute(selectedCattId)">Delete Custom Attribute</button>
+            </div>
+        </div>
+    </div>
+    <div class="client-navbar">
+        <div class="s-client-text">
+            <h4>Selected client: {{ selectedClientInfo ? selectedClientInfo.NAME_ : '' }}</h4>
+        </div>
+        <button class=client-button (click)="showCreatePopup()">symbol<br>Create new client</button>
+        <app-client-create #popupCreate (clientCreated)="onClientCreated($event)"></app-client-create>
+        <button class="client-button" (click)="showUpdatePopup()">Update Client</button>
+        <app-client-update #popupUpdate (clientUpdated)="onClientUpdated($event)"></app-client-update>
+        <button class="client-button" (click)="deleteClient(selectedClientId)">Delete Client</button>
+    </div>
+</div>
+<style>
+    .main {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .content-wrap {
+        display: flex;
+        flex-grow: 1;
+        overflow-y: hidden;
+    }
+
+    .search {
+        padding: 15px;
+    }
+
+    .client-list,
+    .client-details {
+        height: inherit;
+        flex-grow: 1;
+        padding: 15px;
+    }
+
+    .client-list {
+        width: auto;
+    }
+
+    .client-details {
+        width: auto;
+        overflow-y: auto;
+    }
+
+    .client-details-wrap {
+        height: 17vh;
+        overflow-y: auto;
+    }
+
+    .client-c-attribute {
+        overflow-wrap: break-word;
+    }
+
+    .main-title {
+        padding: 15px;
+    }
+
+    .c-attribute-navbar {
+        padding: 10px;
+        background-color: white;
+    }
+
+    .client-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .can-button,
+    .client-button {
+        width: 20%;
+        height: 50px;
+        font-size: 10px;
+        margin-left: 10px;
+    }
+
+    .client-wrap {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .client {
+        overflow-wrap: break-word;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .client-button {
+        width: 15%;
+    }
+
+    .selected-client,
+    .selected-catt {
+        background-color: lightgreen;
+    }
+
+    .s-client-text {
+        text-align: left;
+        max-width: 40%;
+        overflow-y: auto;
+        flex: 1;
+    }
+</style>

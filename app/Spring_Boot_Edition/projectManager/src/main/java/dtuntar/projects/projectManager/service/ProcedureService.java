@@ -25,6 +25,10 @@ public class ProcedureService {
     private static SimpleJdbcCall UPDATEUSERCALL;
     private static SimpleJdbcCall DISABLEUSERCALL;
     private static SimpleJdbcCall ENABLEUSERCALL;
+    private SimpleJdbcCall GETALLCLIENTSCALL;
+    private static SimpleJdbcCall CREATECLIENTCALL;
+    private static SimpleJdbcCall UPDATECLIENTCALL;
+    private static SimpleJdbcCall DELETECLIENTCALL;
 
     public ProcedureService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -94,6 +98,33 @@ public class ProcedureService {
                 .withProcedureName("ENABLEUSER")
                 .declareParameters(
                         new SqlParameter("v_id_employee", Types.NUMERIC)
+                );
+
+        this.GETALLCLIENTSCALL = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("GETALLCLIENTS")
+                .declareParameters(
+                        new SqlOutParameter("result_cursor", OracleTypes.CURSOR)
+                );
+
+        this.CREATECLIENTCALL = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("CREATECLIENT")
+                .declareParameters(
+                        new SqlParameter("name_", Types.VARCHAR),
+                        new SqlParameter("email", Types.VARCHAR)
+                );
+
+        this.UPDATECLIENTCALL = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("UPDATECLIENT")
+                .declareParameters(
+                        new SqlParameter("v_id_client", Types.NUMERIC),
+                        new SqlParameter("v_name_", Types.VARCHAR),
+                        new SqlParameter("v_email", Types.VARCHAR)
+                );
+
+        this.DELETECLIENTCALL = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("DELETECLIENT")
+                .declareParameters(
+                        new SqlParameter("v_id_client", Types.NUMERIC)
                 );
     }
 
@@ -198,5 +229,40 @@ public class ProcedureService {
 
         // Execute the stored procedure
         ENABLEUSERCALL.execute(inParams);
+    }
+
+    // Method to call GETALLCLIENTS procedure
+    public List<Map<String, Object>> GETALLCLIENTS() {
+        Map<String, Object> result = GETALLCLIENTSCALL.execute();
+        Object clientsObject = result.get("result_cursor");
+        if (clientsObject instanceof List<?>) {
+            return (List<Map<String, Object>>) clientsObject;
+        } else {
+            throw new ClassCastException("Expected List<Map<String, Object>>, but got: " + clientsObject.getClass().getName());
+        }
+    }
+
+    // Method to call CREATECLIENT procedure
+    public static void CREATECLIENT(String name, String email) {
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put("name_", name);
+        inParams.put("email", email);
+        CREATECLIENTCALL.execute(inParams);
+    }
+
+    // Method to call UPDATECLIENT procedure
+    public static void UPDATECLIENT(Integer v_id_client, String v_name_, String v_email) {
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put("v_id_client", v_id_client);
+        inParams.put("v_name_", v_name_);
+        inParams.put("v_email", v_email);
+        UPDATECLIENTCALL.execute(inParams);
+    }
+
+    // Method to call DELETECLIENT procedure
+    public static void DELETECLIENT(Integer v_id_client) {
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put("v_id_client", v_id_client);
+        DELETECLIENTCALL.execute(inParams);
     }
 }

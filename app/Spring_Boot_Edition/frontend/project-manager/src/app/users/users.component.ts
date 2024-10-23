@@ -163,6 +163,7 @@ export class UsersComponent implements OnInit {
 
   showCattCreatePopup() {
     if (this.popupCattCreate) {
+      this.popupCattCreate.currentContext = 'EMPLOYEE';
       this.popupCattCreate.selectedUser = this.selectedUserInfo;
       this.popupCattCreate.open();
     }

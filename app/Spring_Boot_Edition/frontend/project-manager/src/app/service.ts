@@ -115,4 +115,45 @@ export class Service {
       responseType: 'text'  // Expecting a plain text response from the backend
     });
   }
+
+  // Get all clients
+  public getAllClients(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiServerUrl}/api/getAllClients`);
+  }
+
+  // Create a client
+  public createClient(name: string, email: string): Observable<any> {
+    let params = new HttpParams()
+      .set('name_', name)
+      .set('email', email);
+
+    return this.http.post(`${this.apiServerUrl}/api/createClient`, null, {
+      params: params,
+      responseType: 'text'  // Expecting a plain text response from the backend
+    });
+  }
+
+  // Update a client
+  public updateClient(id_client: number, name: string, email: string): Observable<any> {
+    let params = new HttpParams()
+      .set('v_id_client', id_client.toString())
+      .set('v_name_', name)
+      .set('v_email', email);
+
+    return this.http.put(`${this.apiServerUrl}/api/updateClient`, null, {
+      params: params,
+      responseType: 'text'  // Expecting a plain text response from the backend
+    });
+  }
+
+  // Delete a client
+  public deleteClient(id_client: number): Observable<any> {
+    let params = new HttpParams()
+      .set('v_id_client', id_client.toString());
+
+    return this.http.delete(`${this.apiServerUrl}/api/deleteClient`, {
+      params: params,
+      responseType: 'text'  // Expecting a plain text response from the backend
+    });
+  }
 }
