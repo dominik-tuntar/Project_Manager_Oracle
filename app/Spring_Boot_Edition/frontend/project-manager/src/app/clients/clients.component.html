@@ -32,7 +32,7 @@
                     <h4>Selected item: {{ selectedCattInfo ? selectedCattInfo.TITLE : '' }}</h4>
                 </div>
                 <button class="can-button" (click)="showCattCreatePopup()">Create Custom Attribute</button>
-                <app-cattribute-create #popupCattCreate (customAttributeCreated)="onCustomAttributeCreated($event)"></app-cattribute-create>
+                <app-cattribute-create #popupCattCreate (customAttributeCreated)="onCustomAttributeCreated()"></app-cattribute-create>
                 <button class=can-button (click)="showCattUpdatePopup()">symbol<br>Update<br>selected</button>
                 <app-cattribute-update #popupCattUpdate (customAttributeUpdated)="onCustomAttributeUpdated($event)"></app-cattribute-update>
                 <button class="can-button" (click)="deleteCustomAttribute(selectedCattId)">Delete Custom Attribute</button>
@@ -44,7 +44,7 @@
             <h4>Selected client: {{ selectedClientInfo ? selectedClientInfo.NAME_ : '' }}</h4>
         </div>
         <button class=client-button (click)="showCreatePopup()">symbol<br>Create new client</button>
-        <app-client-create #popupCreate (clientCreated)="onClientCreated($event)"></app-client-create>
+        <app-client-create #popupCreate (clientCreated)="onClientCreated()"></app-client-create>
         <button class="client-button" (click)="showUpdatePopup()">Update Client</button>
         <app-client-update #popupUpdate (clientUpdated)="onClientUpdated($event)"></app-client-update>
         <button class="client-button" (click)="deleteClient(selectedClientId)">Delete Client</button>

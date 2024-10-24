@@ -25,27 +25,40 @@ export class UserUpdateComponent {
     this.isOpen = false;
   }
 
-  public updateUser(id_employee: number, fullname: string, username: string, pass_word: string, pass_word2: string): void {
-    if (pass_word == pass_word2) {
-      this.service.updateUser(id_employee, fullname, username, pass_word)
-      .subscribe(
-        (response: any) => {
-          this.passwordMatch = null;
-          if (this.selectedUser) {
-            this.selectedUser.FULLNAME = fullname;
-            this.selectedUser.USERNAME = username;
-            this.selectedUser.PASS_WORD = pass_word;
-            this.userUpdated.emit(this.selectedUser);
+  public updateUser(fullname: string, username: string, pass_word: string, pass_word2: string): void {
+    // First, ensure that selectedUser is not null and contains id_employee
+    if (this.selectedUser && this.selectedUser.ID_EMPLOYEE) {
+      const id_employee = this.selectedUser.ID_EMPLOYEE;
+      if (pass_word === pass_word2) {
+        // Proceed with update if passwords match
+        this.service.updateUser(id_employee, fullname, username, pass_word)
+        .subscribe(
+          (response: any) => {
+
+            if (this.selectedUser) { // Check if selectedUser is still valid
+              this.passwordMatch = null;
+              // Update selected user details
+              this.selectedUser.FULLNAME = fullname;
+              this.selectedUser.USERNAME = username;
+              this.selectedUser.PASS_WORD = pass_word;
+  
+              // Emit the updated user back to parent component
+              this.userUpdated.emit(this.selectedUser);
+              this.close();  // Close the popup
+            } else {
+              console.error('Error: selectedUser is null after update');
+            }
+          },
+          (error: any) => {
+            console.error('Error updating user:', error);
           }
-          this.close();
-          //location.reload()
-        },
-        (error: any) => {
-          console.error('Error:', error);
-        }
-      );
+        );
+      } else {
+        // Handle password mismatch
+        this.passwordMatch = 0;
+      }
     } else {
-      this.passwordMatch = 0;
+      console.error('Error: selectedUser or ID_EMPLOYEE is undefined');
     }
   }
 }

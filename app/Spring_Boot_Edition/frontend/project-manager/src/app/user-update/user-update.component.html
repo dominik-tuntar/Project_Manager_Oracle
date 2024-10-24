@@ -28,7 +28,7 @@
             <div class="insert-err">
                 <h4 *ngIf="passwordMatch === 0">no match</h4>
             </div>
-            <button (click)="updateUser(selectedUser.ID_EMPLOYEE, fullname.value, username.value, password.value, password2.value)">Update user</button>
+            <button (click)="updateUser(fullname.value, username.value, password.value, password2.value)">Update user</button>
         </div>
     </div>
 </div>

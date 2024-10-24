@@ -28,21 +28,12 @@ export class UserCreateComponent {
     if (pass_word == pass_word2) {
       this.service.createUser(fullname, username, pass_word)
       .subscribe(
-        (response: Employee) => {
+        (response: any) => {
           this.passwordMatch = null;
-          const createdUser: Employee = {
-            ID_EMPLOYEE: 0,  // Temporary value (we don't have the actual ID)
-            FULLNAME: fullname,
-            USERNAME: username,
-            PASS_WORD: pass_word,
-            ID_EMPLOYEE_ROLE: 2, // This can be filled in with actual data if needed
-            STATUS: 1 // Assuming the new user is active
-          };
 
-          // Emit the newly created user (without ID)
-          this.userCreated.emit(createdUser);
+          
+          this.userCreated.emit();
           this.close();
-          //location.reload()
         },
         (error: any) => {
           console.error('Error:', error);

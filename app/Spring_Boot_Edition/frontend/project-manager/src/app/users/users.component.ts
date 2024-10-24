@@ -46,9 +46,13 @@ export class UsersComponent implements OnInit {
   }
 
   public getSelectedUserInfo(employee: Employee): void {
-    this.selectedUserId = employee.ID_EMPLOYEE;
-    this.selectedUserInfo = { ...employee };
-    this.getCustomAttributes('EMPLOYEE', employee.ID_EMPLOYEE);
+    if (employee && employee.ID_EMPLOYEE) { // Ensure the employee and ID_EMPLOYEE exist
+      this.selectedUserId = employee.ID_EMPLOYEE;
+      this.selectedUserInfo = { ...employee };
+      this.getCustomAttributes('EMPLOYEE', employee.ID_EMPLOYEE);
+    } else {
+      console.error('Error: ID_EMPLOYEE is undefined for the selected user');
+    }
   }
 
   public getSelectedCattInfo(custom_attribute: Custom_Attribute): void {
@@ -155,23 +159,27 @@ export class UsersComponent implements OnInit {
   @ViewChild('popupCattCreate') popupCattCreate!: CattributeCreateComponent; // Reference to the user update popup component
 
   showUpdatePopup() {
-    if (this.popupUpdate) {
-      this.popupUpdate.selectedUser = this.selectedUserInfo;
+    if (this.popupUpdate && this.selectedUserInfo) {
+      this.popupUpdate.selectedUser = { ...this.selectedUserInfo }; // Clone the selectedUserInfo
       this.popupUpdate.open();
+    } else {
+      console.error('Error: No user selected or popupUpdate component is not ready');
     }
   }
 
   showCattCreatePopup() {
-    if (this.popupCattCreate) {
-      this.popupCattCreate.currentContext = 'EMPLOYEE';
-      this.popupCattCreate.selectedUser = this.selectedUserInfo;
-      this.popupCattCreate.open();
+    if (this.popupCattCreate && this.selectedUserInfo) {
+      this.popupCattCreate.currentContext = 'EMPLOYEE'; // Set context to EMPLOYEE
+      this.popupCattCreate.selectedUser = { ...this.selectedUserInfo }; // Pass the selected user
+      this.popupCattCreate.open(); // Open the popup
+    } else {
+      console.error('Error: No user selected or popupCattCreate component is not ready');
     }
   }
 
   showCattUpdatePopup() {
-    if (this.popupCattUpdate) {
-      this.popupCattUpdate.selectedCatt = this.selectedCattInfo;
+    if (this.popupCattUpdate && this.selectedCattInfo) {
+      this.popupCattUpdate.selectedCatt = { ... this.selectedCattInfo };
       this.popupCattUpdate.open();
     }
   }
@@ -191,24 +199,20 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  public onUserCreated(newUser: Employee): void {
-    this.employees.push(newUser);  // Add the newly created user to the list
-    this.filteredUsers = [...this.employees];  // Update the filtered list to include the new user
+  public onUserCreated(): void {
+    this.getAllUsers();
   }
 
   public onCustomAttributeUpdated(updatedCatt: Custom_Attribute): void {
     // Find the index of the existing attribute and update it
     const index = this.custom_attributes.findIndex(catt => catt.ID_C_ATTRIBUTE === updatedCatt.ID_C_ATTRIBUTE);
     if (index !== -1) {
-      this.custom_attributes[index] = updatedCatt; // Update the existing attribute
-    } else {
-      // Optionally handle the case where the custom attribute was not found
+      this.custom_attributes[index] = updatedCatt;
       this.getCustomAttributes('EMPLOYEE', this.selectedUserId!);
-    }
+    } 
   }
 
-  public onCustomAttributeCreated(newCatt: Custom_Attribute): void {
-    this.custom_attributes.push(newCatt); // Add the new custom attribute to the list
-    this.filterAttributes();
+  public onCustomAttributeCreated(): void {
+    this.getCustomAttributes('EMPLOYEE', this.selectedUserId!);
   }
 }

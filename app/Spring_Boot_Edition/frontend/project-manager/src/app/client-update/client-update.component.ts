@@ -23,19 +23,25 @@ export class ClientUpdateComponent {
   }
 
   updateClient(id_client: number, name: string, email: string): void {
-    // Assume service is available to update client
+    if(this.selectedClient && this.selectedClient.ID_CLIENT) {
+      const id_client = this.selectedClient.ID_CLIENT;
       this.service.updateClient(id_client, name, email).subscribe(
         (response: any) => {
           if(this.selectedClient) {
             this.selectedClient.NAME_ = name;
             this.selectedClient.EMAIL = email;
             this.clientUpdated.emit(this.selectedClient);
+            this.close();
+          } else {
+            console.error('Error: selectedClient is null after update');
           }
-          this.close();
         },
         (error: any) => {
           console.error('Error:', error);
         }
       );
+    } else {
+      console.error('Error: selectedClient or ID_CLIENT is undefined');
+    }   
   }
 }

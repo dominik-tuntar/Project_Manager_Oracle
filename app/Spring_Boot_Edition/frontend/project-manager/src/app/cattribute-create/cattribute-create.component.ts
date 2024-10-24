@@ -29,20 +29,13 @@ export class CattributeCreateComponent {
     this.isOpen = false; // Close the modal
   }
 
-  public createCustomAttribute(table_name: string, table_row: number, title: string, content: string): void {
-    if ((this.selectedClient || this.selectedUser)) {
-      this.service.createCustomAttribute(table_name, table_row, title, content)
+  public createCustomAttribute(): void {
+    const [table_name, table_row] = this.getCreateParameters();
+    if ((this.selectedClient || this.selectedUser && this.title && this.content)) {
+      this.service.createCustomAttribute(table_name, table_row, this.title, this.content)
         .subscribe(
-          (response: Custom_Attribute) => {
-            const createdCustomAttribute: Custom_Attribute = {
-              ID_C_ATTRIBUTE: response.ID_C_ATTRIBUTE, // Use the actual ID returned from the response
-              TABLE_NAME: table_name,
-              TABLE_ROW: table_row,
-              TITLE: title,
-              CONTENT_: content,
-            };
-
-            this.customAttributeCreated.emit(createdCustomAttribute);
+          (response: any) => {
+            this.customAttributeCreated.emit(response);
             this.close();
           },
           (error: any) => {
@@ -53,16 +46,13 @@ export class CattributeCreateComponent {
   }
 
   // New method to determine parameters based on context
-  public getCreateParameters(): [string, number, string, string] {
-    const defaultTitle = '';
-    const defaultContent = '';
-
+  public getCreateParameters(): [string, number] {
     if (this.currentContext === 'CLIENT' && this.selectedClient) {
-      return ['CLIENT', this.selectedClient.ID_CLIENT, this.title, this.content];
+      return ['CLIENT', this.selectedClient.ID_CLIENT];
     } else if (this.currentContext === 'EMPLOYEE' && this.selectedUser) {
-      return ['EMPLOYEE', this.selectedUser.ID_EMPLOYEE, this.title, this.content];
-    }
-    
-    return ['DEFAULT', 0, defaultTitle, defaultContent]; 
+      return ['EMPLOYEE', this.selectedUser.ID_EMPLOYEE];
+    } else {
+      return ['DEFAULT', 0];
+    } 
   }
 }

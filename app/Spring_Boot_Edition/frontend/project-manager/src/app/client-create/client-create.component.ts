@@ -30,13 +30,8 @@ export class ClientCreateComponent {
   public createClient(name: string, email: string): void {
     // Call the service to create a new client using destructured parameters
     this.service.createClient(name, email).subscribe(
-      (response: Client) => {
-        const createdClient: Client = {
-          ID_CLIENT: 0, // Placeholder until actual ID is received
-          NAME_: name,
-          EMAIL: email,
-        };
-        this.clientCreated.emit(createdClient); // Emit newly created client
+      (response: any) => {
+        this.clientCreated.emit(); // Emit newly created client
         this.close(); // Close the modal
       },
       (error: any) => {

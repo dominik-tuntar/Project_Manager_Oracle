@@ -46,9 +46,13 @@ export class ClientsComponent implements OnInit {
   }
 
   public getSelectedClientInfo(client: Client): void {
-    this.selectedClientId = client.ID_CLIENT;
+    if (client && client.ID_CLIENT) {
+      this.selectedClientId = client.ID_CLIENT;
     this.selectedClientInfo = { ...client };
     this.getCustomAttributes('CLIENT', client.ID_CLIENT);
+    } else {
+      console.error('Error: ID_CLIENT is undefined for the selected client');
+    }
   }
 
   public getSelectedCattInfo(custom_attribute: Custom_Attribute): void {
@@ -137,15 +141,16 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  public onClientCreated(newClient: Client): void {
-    this.clients.push(newClient); // Add newly created client to the list
-    this.filteredClients = [...this.clients];
+  public onClientCreated(): void {
+    this.getAllClients();
   }
 
   showUpdatePopup() {
-    if (this.popupUpdate) {
-      this.popupUpdate.selectedClient = this.selectedClientInfo;
+    if (this.popupUpdate && this.selectedClientInfo) {
+      this.popupUpdate.selectedClient = { ...this.selectedClientInfo};
       this.popupUpdate.open();
+    } else {
+      console.error('Error: No client selected or popupUpdate component is not ready');
     }
   }
 
@@ -158,21 +163,22 @@ export class ClientsComponent implements OnInit {
   }
 
   showCattCreatePopup() {
-    if (this.popupCattCreate) {
+    if (this.popupCattCreate && this.selectedClientInfo) {
       this.popupCattCreate.currentContext = 'CLIENT';
-      this.popupCattCreate.selectedClient = this.selectedClientInfo;
+      this.popupCattCreate.selectedClient = { ...this.selectedClientInfo};
       this.popupCattCreate.open();
+    } else {
+      console.error('Error: No client selected or popupCattCreate component is not ready');
     }
   }
 
-  public onCustomAttributeCreated(newCatt: Custom_Attribute): void {
-    this.custom_attributes.push(newCatt); // Add the new custom attribute to the list
-    this.filterAttributes();
+  public onCustomAttributeCreated(): void {
+    this.getCustomAttributes('CLIENT', this.selectedClientId!);
   }
 
   showCattUpdatePopup() {
-    if (this.popupCattUpdate) {
-      this.popupCattUpdate.selectedCatt = this.selectedCattInfo;
+    if (this.popupCattUpdate && this.selectedCattInfo) {
+      this.popupCattUpdate.selectedCatt = { ...this.selectedCattInfo};
       this.popupCattUpdate.open();
     }
   }
@@ -181,10 +187,8 @@ export class ClientsComponent implements OnInit {
     // Find the index of the existing attribute and update it
     const index = this.custom_attributes.findIndex(catt => catt.ID_C_ATTRIBUTE === updatedCatt.ID_C_ATTRIBUTE);
     if (index !== -1) {
-      this.custom_attributes[index] = updatedCatt; // Update the existing attribute
-    } else {
-      // Optionally handle the case where the custom attribute was not found
-      this.getCustomAttributes('CLIENT', this.selectedClientId!);
+      this.custom_attributes[index] = updatedCatt;
+      this.getCustomAttributes('CLIENT', this.selectedClientId!); // Update the existing attribute
     }
   }
 }

@@ -34,7 +34,7 @@
                     <h4>Selected item: {{ selectedCattInfo ? selectedCattInfo.TITLE : '' }}</h4>
                 </div>
                 <button class=can-button (click)="showCattCreatePopup()">symbol<br>Create<br>selected</button>
-                <app-cattribute-create #popupCattCreate (customAttributeCreated)="onCustomAttributeCreated($event)"></app-cattribute-create>
+                <app-cattribute-create #popupCattCreate (customAttributeCreated)="onCustomAttributeCreated()"></app-cattribute-create>
                 <button class=can-button (click)="showCattUpdatePopup()">symbol<br>Update<br>selected</button>
                 <app-cattribute-update #popupCattUpdate (customAttributeUpdated)="onCustomAttributeUpdated($event)"></app-cattribute-update>
                 <button class=can-button
@@ -47,7 +47,7 @@
             <h4>Selected user: {{ selectedUserInfo ? selectedUserInfo.USERNAME : '' }}</h4>
         </div>
         <button class=user-button (click)="showCreatePopup()">symbol<br>Create new User</button>
-        <app-user-create #popupCreate (userCreated)="onUserCreated($event)"></app-user-create>
+        <app-user-create #popupCreate (userCreated)="onUserCreated()"></app-user-create>
         <button class=user-button (click)="showUpdatePopup()">symbol<br>Update User</button>
         <app-user-update #popupUpdate (userUpdated)="onUserUpdated($event)"></app-user-update>
         <button class=user-button (click)="disableUser(selectedUserId)">symbol<br>Set user as inactive</button>
